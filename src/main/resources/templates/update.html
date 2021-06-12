@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>計算式更新登録</title>
+</head>
+<body>
+  <h1>計算式更新</h1>
+  <form th:action="@{'update' + ${dateId}}" th:object="${CalcDate}" method="POST">
+    <p>日付Id</p>
+    <input type="text" th:value="*{dateId}">
+    <p>日付名</p>
+    <input type="text" th:value="@{dateName}">
+    <p>加減値（年）</p>
+    <input type="text" th:value="*{addYear}">
+    <p>加減値（月）</p>
+    <input type="text" th:value="*{addMonth}">
+    <p>加減値（日）</p>
+    <input type="text" th:value="*{addDay}">
+    <button type="submit">登録</button>
+    <a href="top">戻る</a>
+  </form>
+</body>
+</html>
