@@ -6,19 +6,20 @@
 </head>
 <body>
   <h1>新規登録</h1>
-  <form th:action="@{/register}" method="post">
+  <form action="/top" th:action="@{/register}" method="post">
   	<p>日付Id</p>
-    <input type="text" th:field="${CalcDate.dateId}">
+    <input type="text" placeholder= "Y01" th:field="${calcDate.dateId}">
     <p>日付名</p>
-    <input type="text" th:field="${CalcDate.dateName}">
+    <input type="text" placeholder= "一年後" th:field="${calcDate.dateName}">
     <p>加減値（年）</p>
-    <input type="text" th:field="${CalcDate.addYear}">
+    <input type="text" placeholder= "1" th:field="${calcDate.addYear}">
     <p>加減値（月）</p>
-    <input type="text" th:field="${CalcDate.addMonth}">
+    <input type="text" placeholder= "1" th:field="${calcDate.addMonth}">
     <p>加減値（日）</p>
-    <input type="text" th:field="${CalcDate.addDay}">
+    <input type="text" placeholder= "1" th:field="${calcDate.addDay}">
     <button type="submit">登録</button>
-    <a href="top">戻る</a>
+    <a href="/top">戻る</a>
   </form>
+  
 </body>
 </html>

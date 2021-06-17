@@ -1,10 +1,7 @@
 package com.example.demo.controller;
 
 
-import java.time.LocalDate;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.model.CalcDate;
-import com.example.demo.model.SearchDate;
+import com.example.demo.model.ResultDate;
+import com.example.demo.model.TopForm;
 import com.example.demo.service.CalcService;
 
 
@@ -30,70 +28,67 @@ public class CalcController {
 	
 	//top画面遷移　top.html
 	@GetMapping("/")
-	public String getDate(@ModelAttribute SearchDate searchDate ,Model model) {
+	public String getDate(@ModelAttribute TopForm form) {
 		return "top";
 	}
 	//全件データ取得表示
-	@GetMapping("/searchAll")
-	public String searchAll(@ModelAttribute @Validated SearchDate searchDate, BindingResult bindingResult, Model model) {
+	@PostMapping("/searchAll")
+	public String searchAll(@ModelAttribute @Validated TopForm form, BindingResult bindingResult, Model model) {
 		if(bindingResult.hasErrors()) {
 			return "top";
 		}
-		//全件データ取得
-		List<CalcDate> getResult = calcService.searchAll();
-		Map<Integer, Object> calcResult = new LinkedHashMap<>();//計算結果の変数
+		TopForm resultForm = new TopForm(form.getBaseDate(), calcService.searchAll());
+		List<ResultDate> results = resultForm.getResults();
 		
-		for(int i = 0; i < getResult.size(); i++) {
-			CalcDate date = getResult.get(i);
-			LocalDate result  = searchDate.getSearchDate();
-			result = result.plusYears(date.getAddYear())
-							.plusMonths(date.getAddMonth())
-							.plusDays(date.getAddDay());
-			calcResult.put(i, result);
+		//results.stream().forEach(e -> e.setCalculated(service.calculate(form.getBaseDate(), e.getFormula())));
+		
+		for(ResultDate r : results) {
+			r.setCalculated(calcService.calclate(form.getBaseDate(), r.getDate()));
 		}
-		model.addAttribute("getResult", getResult);
-		model.addAttribute("calcResult", calcResult);
 		
-		return "redirect:/top";
+		model.addAttribute("results", results);
+		return "top";
 	}
 
-	
+
 	
 	//register画面 初期表示
 	@GetMapping("/register")
-	public String getRegister(@ModelAttribute CalcDate date,BindingResult bindingResult) {
-		if(bindingResult.hasErrors()) {
-			return "top";
-		}
+	public String getRegister(@ModelAttribute CalcDate date) {
 		return "register";
 	}
+	
 	//新規登録処理
 	@PostMapping("/register")
-	public String register(@ModelAttribute CalcDate date) {
-		calcService.register(date);
+	public String register(@ModelAttribute CalcDate date, BindingResult bindingResult, Model model) {
+		if(bindingResult.hasErrors()) {
+			return "register";
+		}
 		
-		return "redirect:/top";
+		calcService.register(date);
+		model.addAttribute("topForm", new TopForm());
+		return "/top";
 	}
 	
 	
 	
 	//更新画面 & 一件選択データ取得
 	@GetMapping("/update/{dateId}")
-	public String getUpdate(@PathVariable("dateId")String dateId, Model model) {
-		CalcDate updateDate = calcService.selectOne(dateId);
-		model.addAttribute("updateDate", updateDate);
-		
+	public String getUpdate(@PathVariable String dateId, Model model) {
+		model.addAttribute("dateFormula", calcService.selectOne(dateId));
 		return "update";
 	}
+	
 	//更新処理
 	@PostMapping("/update/{dateId}")
-	public String update(@ModelAttribute CalcDate date) {
+	public String update(@ModelAttribute @PathVariable CalcDate date, BindingResult bindingResult, Model model) {
+		if(bindingResult.hasErrors()) {
+			return "update";
+		}
 		calcService.update(date);
+		model.addAttribute("topForm", new TopForm());
 		return "top";
 	}
-	
-	
-	
 	//消去処理
 	@GetMapping("/delete/{dateId}")
 	public String delete(@PathVariable String dateId) {

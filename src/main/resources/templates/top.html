@@ -4,38 +4,42 @@
 <title>計算結果画面</title>
 </head>
 <body>
-	<h2>計算の基準となる日付を入力してください</h2>
-  <form th:action="@{/searchAll}" method="GET" th:object="${searchDate}">
-    <input type="text" th:field="*{searchDate}"><br>
+	
+  <form th:action="@{/searchAll}" method="post" >
+  	<h2>計算の基準となる日付を入力してください</h2>
+    <input type="text" placeholder= "19951013" th:field="*{topForm.baseDate}"><br>
     <button type="submit">計算結果実行</button>
-  </form>
-	<form th:action="@{/register}" method="GET">
-    <button type="submit">新規登録</button>
+    <a href = "register">新規登録</a>
   </form>
 	
 	
 	<div>
     <table border="1">
+    <thead>
       <tr>
+      	<th>No</th>
         <th>日付ID</th>
         <th>日付名</th>
         <th>計算結果</th>
-        <th>計算式</th>
+        <th>計算式(年月日)</th>
         <th>編集</th>
       </tr>
-      <tr th:each="results,no:${getResult}">
-        <td th:text="${results.dateId"></td>
-        <td th:text="${results.dateName}"></td>
-        <td th:text="${calcResult}"></td>
-        <td>
-          <form th:action="@{'/update' + ${results.dateId}}" method="GET">
-            <button type="submit">更新</button>
-          </form>
-          <form th:action="@{'delete/' + ${results.dateId}" method="GET">
-            <button type="submit">消去</button>
-          </form>
-        </td>
-      </tr>
+     </thead>
+     <tbody th:remove="all-but-first" th:each="dateFormula, stat : ${results}">
+     	<tr >
+      		<td th:text= "*{stat.count}">1</td>
+        	<td th:id="${stat.count} + '_dateId'"  th:text="*{dateFormula.dateId}"></td>
+        	<td th:id="${stat.count} + '_dateName'" th:text="*{dateFormula.dateName}"></td>
+        	<td th:id="${stat.count} + '_calculated'" th:text="*{dateFormula.calculated}"></td>
+        	<td th:text="*{dateFormula.ymdDate}"></td><!-- th:id="${stat.count} + '_ymdDate" -->
+        	<td>
+          		<a th:id="${stat.count}" th:href = "@{/update/{dateId(dateId = ${dateFormula.dateId})}}">更新</a>
+          		<form action="/top" th:action="@{/{dateId}(dateId=${dateFormula.dateId})}" method="post">
+            		<button th:id="${stat.count}" type="submit">消去</button>
+          		</form>
+        	</td>
+      	</tr>
+     </tbody>
     </table>
   </div>
 </body>

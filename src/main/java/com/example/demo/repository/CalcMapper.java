@@ -13,7 +13,7 @@ import com.example.demo.model.CalcDate;
 @Mapper
 public interface CalcMapper {
 		//計算式を全件取得
-		@Select("select * from dateform")
+		@Select("select * from dateform order by dateId")
 		public List<CalcDate> selectAll(); 
 		
 		//計算式を一件取得

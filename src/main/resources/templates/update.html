@@ -6,18 +6,18 @@
 </head>
 <body>
   <h1>計算式更新</h1>
-  <form th:action="@{'update' + ${dateId}}" th:object="${CalcDate}" method="POST">
+  <form th:action="@{/update/{dateId}(dateId=${dateFormula.dateId})}" method="POST">
     <p>日付Id</p>
-    <input type="text" th:value="*{dateId}">
+    <input type="text" th:field="${dateFormula.dateId}">
     <p>日付名</p>
-    <input type="text" th:value="@{dateName}">
+    <input type="text" th:field="${dateFormula.dateName}">
     <p>加減値（年）</p>
-    <input type="text" th:value="*{addYear}">
+    <input type="text" th:field="${dateFormula.addYear}">
     <p>加減値（月）</p>
-    <input type="text" th:value="*{addMonth}">
+    <input type="text" th:field="${dateFormula.addMonth}">
     <p>加減値（日）</p>
-    <input type="text" th:value="*{addDay}">
-    <button type="submit">登録</button>
+    <input type="text" th:field="${dateFormula.addDay}">
+    <button type="submit">更新</button>
     <a href="top">戻る</a>
   </form>
 </body>

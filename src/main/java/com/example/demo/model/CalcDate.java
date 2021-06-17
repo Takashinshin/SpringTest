@@ -23,6 +23,4 @@ public class CalcDate {
 	
 	@NotBlank
 	private int addDay;
-	
-
 }
