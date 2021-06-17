@@ -6,7 +6,7 @@
 </head>
 <body>
   <h1>計算式更新</h1>
-  <form th:action="@{/update/{dateId}(dateId=${dateFormula.dateId})}" method="POST">
+  <form action="#" th:action="@{/update/{dateId}" method="POST"><!-- (dateId=${dateFormula.dateId}) -->
     <p>日付Id</p>
     <input type="text" th:field="${dateFormula.dateId}">
     <p>日付名</p>

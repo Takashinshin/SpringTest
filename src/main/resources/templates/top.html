@@ -31,10 +31,10 @@
         	<td th:id="${stat.count} + '_dateId'"  th:text="*{dateFormula.dateId}"></td>
         	<td th:id="${stat.count} + '_dateName'" th:text="*{dateFormula.dateName}"></td>
         	<td th:id="${stat.count} + '_calculated'" th:text="*{dateFormula.calculated}"></td>
-        	<td th:text="*{dateFormula.ymdDate}"></td><!-- th:id="${stat.count} + '_ymdDate" -->
+        	<td th:id="${stat.count} + '_ymdDate'" th:text="*{dateFormula.ymdDate}"></td>
         	<td>
-          		<a th:id="${stat.count}" th:href = "@{/update/{dateId(dateId = ${dateFormula.dateId})}}">更新</a>
-          		<form action="/top" th:action="@{/{dateId}(dateId=${dateFormula.dateId})}" method="post">
+          		<a th:id="${stat.count} + '_updateButton'" th:href="@{/update/{dateId}(dateId = ${'dateFormula.dateId'})}">更新</a>
+          		<form action="/top" th:action="@{/delete/{dateId}(dateId=${dateFormula.dateId})}" method="post">
             		<button th:id="${stat.count}" type="submit">消去</button>
           		</form>
         	</td>

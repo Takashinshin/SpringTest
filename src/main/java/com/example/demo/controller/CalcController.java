@@ -90,9 +90,10 @@ public class CalcController {
 		return "top";
 	}
 	//消去処理
-	@GetMapping("/delete/{dateId}")
-	public String delete(@PathVariable String dateId) {
+	@PostMapping("/delete/{dateId}")
+	public String delete(@PathVariable String dateId, Model model) {
 		calcService.delete(dateId);
+		model.addAttribute("topForm", new TopForm());
 		return "top";
 	}
 }
