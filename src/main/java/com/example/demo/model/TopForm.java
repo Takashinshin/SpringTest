@@ -27,8 +27,17 @@ public class TopForm {
 		this.baseDate = baseDate;
 		this.results = new ArrayList<>();
 		results.stream().forEach(r -> this.results.add(convertToResult(r)));
-		
-		
+	}
+	
+	public String getBaseDate() {
+		return baseDate;
+	}
+	public void setBaseDate(String baseDate) {
+		this.baseDate = baseDate;
+	}
+	
+	public List<ResultDate> getResults() {
+		return results;
 	}
 	
 	

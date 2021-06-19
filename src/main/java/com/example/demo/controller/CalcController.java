@@ -19,6 +19,7 @@ import com.example.demo.model.TopForm;
 import com.example.demo.service.CalcService;
 
 
+
 @Controller
 public class CalcController {
 	
@@ -33,17 +34,17 @@ public class CalcController {
 	}
 	//全件データ取得表示
 	@PostMapping("/searchAll")
-	public String searchAll(@ModelAttribute @Validated TopForm form, BindingResult bindingResult, Model model) {
+	public String searchAll(@ModelAttribute @Validated TopForm date, BindingResult bindingResult, Model model) {
 		if(bindingResult.hasErrors()) {
 			return "top";
 		}
-		TopForm resultForm = new TopForm(form.getBaseDate(), calcService.searchAll());
+		TopForm resultForm = new TopForm(date.getBaseDate(), calcService.searchAll());
 		List<ResultDate> results = resultForm.getResults();
 		
 		//results.stream().forEach(e -> e.setCalculated(service.calculate(form.getBaseDate(), e.getFormula())));
 		
 		for(ResultDate r : results) {
-			r.setCalculated(calcService.calclate(form.getBaseDate(), r.getDate()));
+			r.setCalculated(calcService.calclate(date.getBaseDate(), r.getDate()));
 		}
 		
 		model.addAttribute("results", results);
@@ -67,21 +68,20 @@ public class CalcController {
 		
 		calcService.register(date);
 		model.addAttribute("topForm", new TopForm());
-		return "/top";
+		return "top";
 	}
 	
 	
-	
-	//更新画面 & 一件選択データ取得
+	//更新画面遷移 &　一件取得
 	@GetMapping("/update/{dateId}")
 	public String getUpdate(@PathVariable String dateId, Model model) {
-		model.addAttribute("dateFormula", calcService.selectOne(dateId));
+		model.addAttribute("calcDate", calcService.selectOne(dateId));
 		return "update";
 	}
 	
 	//更新処理
 	@PostMapping("/update/{dateId}")
-	public String update(@ModelAttribute @PathVariable CalcDate date, BindingResult bindingResult, Model model) {
+	public String update(@ModelAttribute @Validated CalcDate date, BindingResult bindingResult, Model model) {
 		if(bindingResult.hasErrors()) {
 			return "update";
 		}
@@ -89,6 +89,8 @@ public class CalcController {
 		model.addAttribute("topForm", new TopForm());
 		return "top";
 	}
+	
+	
 	//消去処理
 	@PostMapping("/delete/{dateId}")
 	public String delete(@PathVariable String dateId, Model model) {

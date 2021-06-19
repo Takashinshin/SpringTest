@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.model.CalcDate;
 import com.example.demo.repository.CalcMapper;
@@ -27,16 +28,19 @@ public class CalcService {
 	}
 	
 	//日付計算式を追加
+	@Transactional
 	public void register(CalcDate date){
 		calcMapper.insert(date);
 	}
 	
 	//日付計算式の更新処理
+	@Transactional
 	public void update(CalcDate date) {
 		calcMapper.update(date);
 	}
 	
 	//日付計算式の消去処理
+	@Transactional
 	public void delete(String dateId) {
 		calcMapper.deletecalc(dateId);
 	}

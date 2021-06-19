@@ -8,11 +8,10 @@
   <form th:action="@{/searchAll}" method="post" >
   	<h2>計算の基準となる日付を入力してください</h2>
     <input type="text" placeholder= "19951013" th:field="*{topForm.baseDate}"><br>
+    <p th:if="${#fields.hasErrors('topForm.baseDate')}" th:errors="${topForm.baseDate}" />
     <button type="submit">計算結果実行</button>
     <a href = "register">新規登録</a>
   </form>
-	
-	
 	<div>
     <table border="1">
     <thead>
@@ -25,16 +24,16 @@
         <th>編集</th>
       </tr>
      </thead>
-     <tbody th:remove="all-but-first" th:each="dateFormula, stat : ${results}">
+     <tbody th:remove="all-but-first" th:each="calcDate, stat : ${results}">
      	<tr >
       		<td th:text= "*{stat.count}">1</td>
-        	<td th:id="${stat.count} + '_dateId'"  th:text="*{dateFormula.dateId}"></td>
-        	<td th:id="${stat.count} + '_dateName'" th:text="*{dateFormula.dateName}"></td>
-        	<td th:id="${stat.count} + '_calculated'" th:text="*{dateFormula.calculated}"></td>
-        	<td th:id="${stat.count} + '_ymdDate'" th:text="*{dateFormula.ymdDate}"></td>
+        	<td th:id="${stat.count} + '_dateId'"  th:text="*{calcDate.dateId}"></td>
+        	<td th:id="${stat.count} + '_dateName'" th:text="*{calcDate.dateName}"></td>
+        	<td th:id="${stat.count} + '_calculated'" th:text="*{calcDate.calculated}"></td>
+        	<td th:id="${stat.count} + '_ymdDate'" th:text="*{calcDate.ymdDate}"></td>
         	<td>
-          		<a th:id="${stat.count} + '_updateButton'" th:href="@{/update/{dateId}(dateId = ${'dateFormula.dateId'})}">更新</a>
-          		<form action="/top" th:action="@{/delete/{dateId}(dateId=${dateFormula.dateId})}" method="post">
+          		<a th:id="${stat.count} + '_updateButton'" th:href="@{/update/{dateId}(dateId=*{calcDate.dateId})}">更新</a>
+          		<form action="/top" th:action="@{/delete/{dateId}(dateId=${calcDate.dateId})}" method="post">
             		<button th:id="${stat.count}" type="submit">消去</button>
           		</form>
         	</td>
