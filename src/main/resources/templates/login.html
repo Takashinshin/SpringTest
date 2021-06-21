@@ -4,6 +4,14 @@
 <title>ログイン画面</title>
 </head>
 <body>
+	<form th:action="@{/login}" method="post">
+		<h2>ログインしてください</h2>
+		<br>
+		<input type="text" placeholder="username"/>
+		<input type="text" placeholder="password"/>
+		<button value="Login" type="submit">ログイン</button>
+		
+	</form>
 
 </body>
 </html>
