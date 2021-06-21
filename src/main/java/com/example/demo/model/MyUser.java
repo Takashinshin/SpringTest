@@ -13,8 +13,6 @@ public class MyUser implements UserDetails {
 	
 	private static final long serialVersionUID = 1234L;
 	
-	private int userId;
-	
 	@Getter
 	@Setter
 	private String username;
