@@ -9,24 +9,47 @@ import lombok.Getter;
 import lombok.Setter;
 
 
+
+
 public class MyUser implements UserDetails {
 	
-	private static final long serialVersionUID = 1234L;
-	
-	@Getter
 	@Setter
+	@Getter
 	private String username;
 	
-	@Getter
 	@Setter
+	@Getter
 	private String password;
-	
+
 	private Collection<GrantedAuthority> authorities;
+	
+	
+	//コンストラクタ
+	public MyUser(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO 自動生成されたメソッド・スタブ
-		return authorities;
+		return null;
+	}
+	
+//	@Override
+//	public String getPassword() {
+//		// TODO 自動生成されたメソッド・スタブ
+//		return password;
+//	}
+//
+//	@Override
+//	public String getUsername() {
+//		// TODO 自動生成されたメソッド・スタブ
+//		return username;
+//	}
+
+	public void setAuthorities(Collection<GrantedAuthority> authorities) {
+		this.authorities = authorities;
 	}
 
 	@Override

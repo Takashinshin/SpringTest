@@ -10,5 +10,5 @@ public interface UserMapper {
 	
 	//Userテーブルからusernameに一致する全件取得
 	@Select("select * from User where username = #{username}")
-	public MyUser findByUsername(String username);
+	public MyUser findByUsername(String username);	
 }

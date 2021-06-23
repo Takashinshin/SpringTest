@@ -21,12 +21,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO 自動生成されたメソッド・スタブ
-		
 		//findByUsernameで見つけたユーザ名をmyUserに入れる
-		MyUser myUser = userMapper.findByUsername(username);
-		
-		return myUser;
+		 MyUser myUser = userMapper.findByUsername(username);
+		if(myUser == null) {
+			throw new UsernameNotFoundException(username + "not found");
+		}
+		UserDetails userDetails = (UserDetails) new MyUser(myUser.getUsername(), myUser.getPassword());
+		return userDetails;
 	}
 
 }

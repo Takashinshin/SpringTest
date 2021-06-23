@@ -7,11 +7,9 @@
 	<form th:action="@{/login}" method="post">
 		<h2>ログインしてください</h2>
 		<br>
-		<input type="text" placeholder="username"/>
-		<input type="text" placeholder="password"/>
-		<button value="Login" type="submit">ログイン</button>
-		
+		<input type="text" name="username" placeholder="username"/><br>
+		<input type="password" name="password" placeholder="password"/>
+		<button type="submit">ログイン</button>
 	</form>
-
 </body>
 </html>
