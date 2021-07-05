@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.model.MyUser;
 import com.example.demo.repository.UserMapper;
@@ -19,15 +20,21 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	private UserMapper userMapper;
 
+	@Transactional
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		//findByUsernameで見つけたユーザ名をmyUserに入れる
 		 MyUser myUser = userMapper.findByUsername(username);
-		if(myUser == null) {
-			throw new UsernameNotFoundException(username + "not found");
-		}
-		UserDetails userDetails = (UserDetails) new MyUser(myUser.getUsername(), myUser.getPassword());
-		return userDetails;
+//		if(myUser == null) {
+//			throw new UsernameNotFoundException(username + "not found");
+//		}
+//		UserDetails userDetails = (UserDetails) new MyUser(myUser.getUsername(), myUser.getPassword());
+		return myUser;
+	}
+	
+	//ユーザデータ追加処理
+	public void register(MyUser myUser) {
+		userMapper.insert(myUser);
 	}
 
 }

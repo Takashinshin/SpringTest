@@ -12,7 +12,10 @@ import lombok.Setter;
 
 
 public class MyUser implements UserDetails {
-	
+	@Getter
+	@Setter
+	private String dataId;
+
 	@Setter
 	@Getter
 	private String username;
@@ -25,31 +28,15 @@ public class MyUser implements UserDetails {
 	
 	
 	//コンストラクタ
-	public MyUser(String username, String password) {
-		this.username = username;
-		this.password = password;
-	}
+//	public MyUser(String username, String password) {
+//		this.username = username;
+//		this.password = password;
+//	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
-	
-//	@Override
-//	public String getPassword() {
-//		// TODO 自動生成されたメソッド・スタブ
-//		return password;
-//	}
-//
-//	@Override
-//	public String getUsername() {
-//		// TODO 自動生成されたメソッド・スタブ
-//		return username;
-//	}
-
-	public void setAuthorities(Collection<GrantedAuthority> authorities) {
-		this.authorities = authorities;
+		return authorities;
 	}
 
 	@Override
